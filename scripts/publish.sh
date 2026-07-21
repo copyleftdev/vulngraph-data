@@ -60,3 +60,13 @@ gh release create "$TAG" \
     "$DIST_DIR"/manifest.json
 
 echo "Published $TAG."
+
+# Stamp README badges from the manifest and push, so the badge numbers
+# always describe the release that is actually latest.
+"$SCRIPT_DIR/update-badges.sh" --dist "$DIST_DIR" --tag "$TAG"
+if ! git -C "$PROJECT_DIR" diff --quiet -- README.md; then
+    git -C "$PROJECT_DIR" add README.md
+    git -C "$PROJECT_DIR" commit -q -m "chore: stamp README badges for $TAG"
+    git -C "$PROJECT_DIR" push -q origin HEAD || echo "WARN: badge push failed (non-fatal)"
+    echo "README badges updated for $TAG."
+fi
