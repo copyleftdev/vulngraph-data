@@ -622,6 +622,7 @@ dependencies = [
 [[package]]
 name = "vulngraph-engine"
 version = "0.1.0"
+source = "git+https://github.com/copyleftdev/vulngraph?tag=engine-v0.1.0#c40d722c80ff833d2bcc8f799cbe777683da5b89"
 dependencies = [
  "bitvec",
  "bytemuck",

@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-determinism.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf *)",
+      "Write(research/downloads/*)",
+      "Write(builds/*)",
+      "Write(dist/*)",
+      "Write(.env)",
+      "Write(**/credentials*)",
+      "Write(**/secret*)"
+    ]
+  }
+}
