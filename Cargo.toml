@@ -1,0 +1,8 @@
+[workspace]
+members = ["crates/vulngraph-data"]
+resolver = "2"
+
+# Local development override: iterate against an uncommitted engine checkout.
+# Comment out to resolve vulngraph-engine from the pinned git tag instead.
+[patch."https://github.com/copyleftdev/vulngraph"]
+vulngraph-engine = { path = "../vulngraph/engine" }

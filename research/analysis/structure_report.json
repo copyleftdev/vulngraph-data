@@ -1,0 +1,1552 @@
+{
+  "cisa_kev": {
+    "status": "analyzed",
+    "file_size_bytes": 1416700,
+    "catalog_version": "2026.03.13",
+    "total_records": 1542,
+    "unique_cve_ids": 1542,
+    "unique_vendors": 255,
+    "unique_products": 630,
+    "record_schema": {
+      "type": "object",
+      "fields": {
+        "cveID": {
+          "type": "string",
+          "sample_length": 13
+        },
+        "vendorProject": {
+          "type": "string",
+          "sample_length": 6
+        },
+        "product": {
+          "type": "string",
+          "sample_length": 11
+        },
+        "vulnerabilityName": {
+          "type": "string",
+          "sample_length": 104
+        },
+        "dateAdded": {
+          "type": "string",
+          "sample_length": 10
+        },
+        "shortDescription": {
+          "type": "string",
+          "sample_length": 369
+        },
+        "requiredAction": {
+          "type": "string",
+          "sample_length": 165
+        },
+        "dueDate": {
+          "type": "string",
+          "sample_length": 10
+        },
+        "knownRansomwareCampaignUse": {
+          "type": "string",
+          "sample_length": 7
+        },
+        "notes": {
+          "type": "string",
+          "sample_length": 136
+        },
+        "cwes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "sample_length": 7
+          },
+          "length": 1
+        }
+      },
+      "field_count": 11
+    },
+    "sample_record": {
+      "cveID": "CVE-2026-3910",
+      "vendorProject": "Google",
+      "product": "Chromium V8",
+      "vulnerabilityName": "Google Chromium V8 Improper Restriction of Operations Within the Bounds of a Memory Buffer Vulnerability",
+      "dateAdded": "2026-03-13",
+      "shortDescription": "Google Chromium V8 contains an improper restriction of operations within the bounds of a memory buffer vulnerability that could allow a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
+      "requiredAction": "Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.",
+      "dueDate": "2026-03-27",
+      "knownRansomwareCampaignUse": "Unknown",
+      "notes": "https://chromereleases.googleblog.com/2026/03/stable-channel-update-for-desktop_12.html ; https://nvd.nist.gov/vuln/detail/CVE-2026-3910",
+      "cwes": [
+        "CWE-119"
+      ]
+    },
+    "date_range": {
+      "earliest": "2021-11-03",
+      "latest": "2026-03-13"
+    },
+    "ransomware_use_breakdown": {
+      "Unknown": 1230,
+      "Known": 312
+    },
+    "cross_reference_keys": [
+      "cveID"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "CVE",
+        "vendor",
+        "product"
+      ],
+      "edge_types": [
+        "exploited_in_wild",
+        "ransomware_campaign"
+      ],
+      "freshness_signal": "date_added field tracks when exploitation was confirmed"
+    }
+  },
+  "epss": {
+    "status": "analyzed",
+    "file_size_bytes": 9712463,
+    "metadata_comments": [
+      "#model_version:v2025.03.14,score_date:2026-03-13T12:55:00Z"
+    ],
+    "columns": [
+      "cve",
+      "epss",
+      "percentile"
+    ],
+    "total_records": 320502,
+    "unique_cves": 320502,
+    "epss_distribution": {
+      "min": 1e-05,
+      "max": 0.94579,
+      "mean": 0.034842,
+      "median": 0.00268,
+      "stdev": 0.122409,
+      "p95": 0.17618,
+      "p99": 0.78254
+    },
+    "risk_buckets": {
+      "high_risk_gte_0.5": 7131,
+      "medium_risk_0.1_to_0.5": 15471,
+      "low_risk_lt_0.1": 297900
+    },
+    "cross_reference_keys": [
+      "cve"
+    ],
+    "graph_relevance": {
+      "node_enrichment": "CVE node gets epss_score and epss_percentile properties",
+      "update_frequency": "daily",
+      "storage_note": "~200K+ float pairs, trivial storage, but need daily delta tracking"
+    }
+  },
+  "osv": {
+    "status": "analyzed",
+    "zip_size_bytes": 1195798810,
+    "ecosystems": [
+      "AlmaLinux",
+      "Alpaquita",
+      "Alpine",
+      "Android",
+      "BellSoft Hardened Containers",
+      "Bitnami",
+      "CRAN",
+      "Chainguard",
+      "CleanStart",
+      "Debian",
+      "Echo",
+      "GHC",
+      "GIT",
+      "GSD",
+      "GitHub Actions",
+      "Go",
+      "Hackage",
+      "Hex",
+      "Julia",
+      "Linux",
+      "Mageia",
+      "Maven",
+      "MinimOS",
+      "NuGet",
+      "OSS-Fuzz",
+      "Packagist",
+      "Pub",
+      "PyPI",
+      "Red Hat",
+      "Rocky Linux",
+      "Root",
+      "RubyGems",
+      "SUSE",
+      "SwiftURL",
+      "UVI",
+      "Ubuntu",
+      "VSCode",
+      "Wolfi",
+      "[EMPTY]",
+      "crates.io",
+      "npm",
+      "opam",
+      "openEuler",
+      "openSUSE"
+    ],
+    "ecosystem_count": 44,
+    "modified_id_sample_count": 1000,
+    "most_recent_modification": "2026-03-14T04:20:01.753386Z,Root/ROOT-OS-UBUNTU-2204-CVE-2024-56674",
+    "total_json_files": 727752,
+    "sample_schema": {
+      "type": "object",
+      "fields": {
+        "schema_version": {
+          "type": "string",
+          "sample_length": 5
+        },
+        "id": {
+          "type": "string",
+          "sample_length": 14
+        },
+        "published": {
+          "type": "string",
+          "sample_length": 20
+        },
+        "modified": {
+          "type": "string",
+          "sample_length": 20
+        },
+        "summary": {
+          "type": "string",
+          "sample_length": 30
+        },
+        "details": {
+          "type": "string",
+          "sample_length": 214
+        },
+        "affected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "package": {
+                "type": "object",
+                "fields": {
+                  "name": {
+                    "type": "string",
+                    "sample_length": 16
+                  },
+                  "ecosystem": {
+                    "type": "string",
+                    "sample_length": 11
+                  },
+                  "purl": {
+                    "type": "string",
+                    "sample_length": 34
+                  }
+                },
+                "field_count": 3
+              },
+              "ranges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "fields": {
+                    "type": {
+                      "type": "string",
+                      "sample_length": 9
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "fields": {
+                          "introduced": {
+                            "type": "string",
+                            "sample_length": 1
+                          }
+                        },
+                        "field_count": 1
+                      },
+                      "length": 2
+                    }
+                  },
+                  "field_count": 2
+                },
+                "length": 1
+              },
+              "database_specific": {
+                "type": "object",
+                "fields": {
+                  "source": {
+                    "type": "string",
+                    "sample_length": 95
+                  }
+                },
+                "field_count": 1
+              }
+            },
+            "field_count": 3
+          },
+          "length": 6
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "type": {
+                "type": "string",
+                "sample_length": 8
+              },
+              "url": {
+                "type": "string",
+                "sample_length": 50
+              }
+            },
+            "field_count": 2
+          },
+          "length": 1
+        }
+      },
+      "field_count": 8
+    },
+    "sample_count": 200,
+    "sample_cve_cross_refs": 14,
+    "sample_ecosystems_seen": [
+      "AlmaLinux:8",
+      "AlmaLinux:9",
+      "Alpaquita:23",
+      "Alpaquita:25",
+      "Alpaquita:stream",
+      "Alpine:v3.11",
+      "Alpine:v3.12",
+      "Alpine:v3.13",
+      "Alpine:v3.14",
+      "Alpine:v3.15",
+      "Alpine:v3.16",
+      "Alpine:v3.17",
+      "Alpine:v3.18",
+      "Alpine:v3.19",
+      "Alpine:v3.20",
+      "Alpine:v3.21",
+      "Alpine:v3.22",
+      "Alpine:v3.23",
+      "Bitnami",
+      "Chainguard",
+      "CleanStart",
+      "Debian:10",
+      "Debian:11",
+      "Debian:12",
+      "Debian:13",
+      "Debian:14",
+      "Debian:6.0",
+      "Echo",
+      "Go",
+      "Linux",
+      "Mageia:6",
+      "Maven",
+      "MinimOS",
+      "OSS-Fuzz",
+      "Packagist",
+      "PyPI",
+      "Red Hat:enterprise_linux:8::baseos",
+      "Red Hat:openshift:1.2::el6",
+      "Red Hat:rhel_aus:8.6::appstream",
+      "Red Hat:rhel_e4s:8.6::appstream",
+      "Red Hat:rhel_eus:7.7::computenode",
+      "Red Hat:rhel_eus:7.7::server",
+      "Red Hat:rhel_eus:9.0::appstream",
+      "Red Hat:rhel_software_collections:2::el6",
+      "Red Hat:rhel_software_collections:2::el7",
+      "Red Hat:rhel_tus:8.6::appstream",
+      "Root:Debian:11",
+      "Root:Debian:12",
+      "Root:Ubuntu:22.04",
+      "RubyGems",
+      "SUSE:Linux Enterprise Micro 5.2",
+      "SUSE:Linux Enterprise Micro 5.4",
+      "SUSE:Linux Enterprise Module for Basesystem 15",
+      "SUSE:Linux Enterprise Module for Basesystem 15 SP2",
+      "SUSE:Linux Enterprise Module for Basesystem 15 SP3",
+      "SUSE:Linux Enterprise Module for Server Applications 15",
+      "Ubuntu:14.04:LTS",
+      "Ubuntu:16.04:LTS",
+      "Ubuntu:18.04:LTS",
+      "Ubuntu:20.04:LTS",
+      "Ubuntu:22.04:LTS",
+      "Ubuntu:24.04:LTS",
+      "Ubuntu:25.10",
+      "Ubuntu:Nvidia-BlueField:22.04:LTS",
+      "Ubuntu:Pro:14.04:LTS",
+      "Ubuntu:Pro:16.04:LTS",
+      "Ubuntu:Pro:18.04:LTS",
+      "Ubuntu:Pro:20.04:LTS",
+      "Ubuntu:Pro:24.04:LTS",
+      "Ubuntu:Pro:FIPS-preview:22.04:LTS",
+      "Ubuntu:Pro:Realtime:22.04:LTS",
+      "Wolfi",
+      "crates.io",
+      "npm",
+      "openEuler:20.03-LTS-SP1",
+      "openEuler:20.03-LTS-SP2",
+      "openEuler:20.03-LTS-SP3",
+      "openEuler:24.03-LTS-SP1"
+    ],
+    "severity_types": [
+      "CVSS_V2",
+      "CVSS_V3",
+      "CVSS_V4",
+      "Ubuntu"
+    ],
+    "id_prefix_distribution": {
+      "MAL": 61,
+      "CVE": 57,
+      "DEBIAN": 12,
+      "CGA": 10,
+      "UBUNTU": 10,
+      "GHSA": 7,
+      "MINI": 5,
+      "RHSA": 5,
+      "BELL": 4,
+      "GSD": 4,
+      "SUSE": 4,
+      "ROOT": 3,
+      "BIT": 2,
+      "DSA": 2,
+      "OESA": 2,
+      "ALBA": 1,
+      "ALPINE": 1,
+      "ALSA": 1,
+      "CLEANSTART": 1,
+      "DLA": 1
+    },
+    "sample_record": {
+      "schema_version": "1.7.3",
+      "id": "ALBA-2019:0973",
+      "published": "2019-05-07T03:38:54Z",
+      "modified": "2019-05-07T03:38:45Z",
+      "summary": "container-tools bug fix update",
+      "details": "The container-tools package contains tools for working with containers, notably podman, buildah, skopeo, and runc.\n\nUsers of container-tools are advised to upgrade to this updated package, which fixes several bugs.",
+      "affected": [
+        {
+          "package": {
+            "name": "oci-systemd-hook",
+            "ecosystem": "AlmaLinux:8",
+            "purl": "pkg:rpm/almalinux/oci-systemd-hook"
+          },
+          "ranges": [
+            {
+              "type": "ECOSYSTEM",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1:0.1.15-2.git2d0b8a3.module_el8.5.0+119+9a9ec082"
+                }
+              ]
+            }
+          ],
+          "database_specific": {
+            "source": "https://github.com/AlmaLinux/osv-database/blob/master/advisories/almalinux8/ALBA-2019:0973.json"
+          }
+        },
+        {
+          "package": {
+            "name": "oci-systemd-hook",
+            "ecosystem": "AlmaLinux:8",
+            "purl": "pkg:rpm/almalinux/oci-systemd-hook"
+          },
+          "ranges": [
+            {
+              "type": "ECOSYSTEM",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1:0.1.15-2.git2d0b8a3.module_el8.4.0+2496+12421f43"
+                }
+              ]
+            }
+          ],
+          "database_specific": {
+            "source": "https://github.com/AlmaLinux/osv-database/blob/master/advisories/almalinux8/ALBA-2019:0973.json"
+          }
+        },
+        {
+          "package": {
+            "name": "oci-systemd-hook",
+            "ecosystem": "AlmaLinux:8",
+            "purl": "pkg:rpm/almalinux/oci-systemd-hook"
+          },
+          "ranges": [
+            {
+              "type": "ECOSYSTEM",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "1:0.1.15-2.git2d0b8a3.module_el8.3.0+2044+12421f43"
+                }
+              ]
+            }
+          ],
+          "database_specific": {
+            "source": "https://github.com/AlmaLinux/osv-database/blob/master/advisories/almalinux8/ALBA-2019:0973.json"
+          }
+        },
+        {
+          "package": {
+            "name": "oci-umount",
+            "ecosystem": "AlmaLinux:8",
+            "purl": "pkg:rpm/almalinux/oci-umount"
+          },
+          "ranges": [
+            {
+              "type": "ECOSYSTEM",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "2:2.3.4-2.git87f9237.module_el8.5.0+119+9a9ec082"
+                }
+              ]
+            }
+          ],
+          "database_specific": {
+            "source": "https://github.com/AlmaLinux/osv-database/blob/master/advisories/almalinux8/ALBA-2019:0973.json"
+          }
+        },
+        {
+          "package": {
+            "name": "oci-umount",
+            "ecosystem": "AlmaLinux:8",
+            "purl": "pkg:rpm/almalinux/oci-umount"
+          },
+          "ranges": [
+            {
+              "type": "ECOSYSTEM",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "2:2.3.4-2.git87f9237.module_el8.4.0+2496+12421f43"
+                }
+              ]
+            }
+          ],
+          "database_specific": {
+            "source": "https://github.com/AlmaLinux/osv-database/blob/master/advisories/almalinux8/ALBA-2019:0973.json"
+          }
+        },
+        {
+          "package": {
+            "name": "oci-umount",
+            "ecosystem": "AlmaLinux:8",
+            "purl": "pkg:rpm/almalinux/oci-umount"
+          },
+          "ranges": [
+            {
+              "type": "ECOSYSTEM",
+              "events": [
+                {
+                  "introduced": "0"
+                },
+                {
+                  "fixed": "2:2.3.4-2.git87f9237.module_el8.3.0+2044+12421f43"
+                }
+              ]
+            }
+          ],
+          "database_specific": {
+            "source": "https://github.com/AlmaLinux/osv-database/blob/master/advisories/almalinux8/ALBA-2019:0973.json"
+          }
+        }
+      ],
+      "references": [
+        {
+          "type": "ADVISORY",
+          "url": "https://errata.almalinux.org/8/ALBA-2019-0973.html"
+        }
+      ]
+    },
+    "field_presence_pct": {
+      "schema_version": 100.0,
+      "id": 100.0,
+      "published": 100.0,
+      "modified": 100.0,
+      "affected": 97.5,
+      "details": 85.5,
+      "references": 62.0,
+      "summary": 52.5,
+      "severity": 44.0,
+      "database_specific": 42.0,
+      "credits": 29.5,
+      "upstream": 25.5,
+      "related": 16.5,
+      "aliases": 11.0,
+      "withdrawn": 6.0
+    },
+    "cross_reference_keys": [
+      "id",
+      "aliases (CVE-*)",
+      "affected.package.name"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "CVE",
+        "package",
+        "version",
+        "ecosystem"
+      ],
+      "edge_types": [
+        "affects",
+        "fixed_by"
+      ],
+      "key_insight": "OSV provides precise version ranges \u2014 critical for affects edges"
+    }
+  },
+  "cvelistV5": {
+    "status": "analyzed",
+    "total_cve_files": 338014,
+    "cves_by_year": {
+      "1999": 1579,
+      "2000": 1242,
+      "2001": 1556,
+      "2002": 2393,
+      "2003": 1555,
+      "2004": 2707,
+      "2005": 4769,
+      "2006": 7143,
+      "2007": 6580,
+      "2008": 7177,
+      "2009": 5052,
+      "2010": 5244,
+      "2011": 4897,
+      "2012": 5939,
+      "2013": 6824,
+      "2014": 9000,
+      "2015": 8769,
+      "2016": 10572,
+      "2017": 17040,
+      "2018": 17577,
+      "2019": 17400,
+      "2020": 21012,
+      "2021": 23352,
+      "2022": 27466,
+      "2023": 31154,
+      "2024": 39011,
+      "2025": 43601,
+      "2026": 7403
+    },
+    "sample_schema": {
+      "type": "object",
+      "fields": {
+        "containers": {
+          "type": "object",
+          "fields": {
+            "cna": {
+              "type": "object",
+              "fields": {
+                "affected": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "product": {
+                        "type": "string",
+                        "sample_length": 3
+                      },
+                      "vendor": {
+                        "type": "string",
+                        "sample_length": 3
+                      },
+                      "versions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "fields": {
+                            "status": {
+                              "type": "string",
+                              "sample_length": 8
+                            },
+                            "version": {
+                              "type": "string",
+                              "sample_length": 3
+                            }
+                          },
+                          "field_count": 2
+                        },
+                        "length": 1
+                      }
+                    },
+                    "field_count": 3
+                  },
+                  "length": 1
+                },
+                "descriptions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "lang": {
+                        "type": "string",
+                        "sample_length": 2
+                      },
+                      "value": {
+                        "type": "string",
+                        "sample_length": 138
+                      }
+                    },
+                    "field_count": 2
+                  },
+                  "length": 1
+                },
+                "problemTypes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "descriptions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "fields": {
+                            "description": {
+                              "type": "string",
+                              "sample_length": 3
+                            },
+                            "lang": {
+                              "type": "string",
+                              "sample_length": 2
+                            },
+                            "type": {
+                              "type": "string",
+                              "sample_length": 4
+                            }
+                          },
+                          "field_count": 3
+                        },
+                        "length": 1
+                      }
+                    },
+                    "field_count": 1
+                  },
+                  "length": 1
+                },
+                "providerMetadata": {
+                  "type": "object",
+                  "fields": {
+                    "dateUpdated": {
+                      "type": "string",
+                      "sample_length": 24
+                    },
+                    "orgId": {
+                      "type": "string",
+                      "sample_length": 36
+                    },
+                    "shortName": {
+                      "type": "string",
+                      "sample_length": 5
+                    }
+                  },
+                  "field_count": 3
+                },
+                "references": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "fields": {
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "sample_length": 19
+                        },
+                        "length": 1
+                      },
+                      "url": {
+                        "type": "string",
+                        "sample_length": 43
+                      }
+                    },
+                    "field_count": 2
+                  },
+                  "length": 2
+                },
+                "x_legacyV4Record": {
+                  "type": "object",
+                  "fields": {
+                    "CVE_data_meta": {
+                      "type": "object",
+                      "fields": {
+                        "ASSIGNER": {
+                          "type": "string",
+                          "sample_length": 13
+                        },
+                        "ID": {
+                          "type": "string",
+                          "sample_length": 13
+                        },
+                        "STATE": {
+                          "type": "string",
+                          "sample_length": 6
+                        }
+                      },
+                      "field_count": 3
+                    },
+                    "affects": {
+                      "type": "object",
+                      "fields": {
+                        "vendor": {
+                          "type": "object",
+                          "fields": {
+                            "vendor_data": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "fields": {
+                                  "product": {
+                                    "type": "object",
+                                    "fields": {
+                                      "product_data": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "truncated_at_max_depth"
+                                        },
+                                        "length": 1
+                                      }
+                                    },
+                                    "field_count": 1
+                                  },
+                                  "vendor_name": {
+                                    "type": "string",
+                                    "sample_length": 3
+                                  }
+                                },
+                                "field_count": 2
+                              },
+                              "length": 1
+                            }
+                          },
+                          "field_count": 1
+                        }
+                      },
+                      "field_count": 1
+                    },
+                    "data_format": {
+                      "type": "string",
+                      "sample_length": 5
+                    },
+                    "data_type": {
+                      "type": "string",
+                      "sample_length": 3
+                    },
+                    "data_version": {
+                      "type": "string",
+                      "sample_length": 3
+                    },
+                    "description": {
+                      "type": "object",
+                      "fields": {
+                        "description_data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "fields": {
+                              "lang": {
+                                "type": "string",
+                                "sample_length": 3
+                              },
+                              "value": {
+                                "type": "string",
+                                "sample_length": 138
+                              }
+                            },
+                            "field_count": 2
+                          },
+                          "length": 1
+                        }
+                      },
+                      "field_count": 1
+                    },
+                    "problemtype": {
+                      "type": "object",
+                      "fields": {
+                        "problemtype_data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "fields": {
+                              "description": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "fields": {
+                                    "lang": {
+                                      "type": "string",
+                                      "sample_length": 3
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "sample_length": 3
+                                    }
+                                  },
+                                  "field_count": 2
+                                },
+                                "length": 1
+                              }
+                            },
+                            "field_count": 1
+                          },
+                          "length": 1
+                        }
+                      },
+                      "field_count": 1
+                    },
+                    "references": {
+                      "type": "object",
+                      "fields": {
+                        "reference_data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "fields": {
+                              "name": {
+                                "type": "string",
+                                "sample_length": 43
+                              },
+                              "refsource": {
+                                "type": "string",
+                                "sample_length": 7
+                              },
+                              "url": {
+                                "type": "string",
+                                "sample_length": 43
+                              }
+                            },
+                            "field_count": 3
+                          },
+                          "length": 2
+                        }
+                      },
+                      "field_count": 1
+                    }
+                  },
+                  "field_count": 8
+                }
+              },
+              "field_count": 6
+            },
+            "adp": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "fields": {
+                  "providerMetadata": {
+                    "type": "object",
+                    "fields": {
+                      "orgId": {
+                        "type": "string",
+                        "sample_length": 36
+                      },
+                      "shortName": {
+                        "type": "string",
+                        "sample_length": 3
+                      },
+                      "dateUpdated": {
+                        "type": "string",
+                        "sample_length": 24
+                      }
+                    },
+                    "field_count": 3
+                  },
+                  "title": {
+                    "type": "string",
+                    "sample_length": 21
+                  },
+                  "references": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "fields": {
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "sample_length": 19
+                          },
+                          "length": 2
+                        },
+                        "url": {
+                          "type": "string",
+                          "sample_length": 43
+                        }
+                      },
+                      "field_count": 2
+                    },
+                    "length": 2
+                  }
+                },
+                "field_count": 3
+              },
+              "length": 1
+            }
+          },
+          "field_count": 2
+        },
+        "cveMetadata": {
+          "type": "object",
+          "fields": {
+            "assignerOrgId": {
+              "type": "string",
+              "sample_length": 36
+            },
+            "assignerShortName": {
+              "type": "string",
+              "sample_length": 5
+            },
+            "cveId": {
+              "type": "string",
+              "sample_length": 13
+            },
+            "datePublished": {
+              "type": "string",
+              "sample_length": 24
+            },
+            "dateReserved": {
+              "type": "string",
+              "sample_length": 24
+            },
+            "dateUpdated": {
+              "type": "string",
+              "sample_length": 24
+            },
+            "state": {
+              "type": "string",
+              "sample_length": 9
+            }
+          },
+          "field_count": 7
+        },
+        "dataType": {
+          "type": "string",
+          "sample_length": 10
+        },
+        "dataVersion": {
+          "type": "string",
+          "sample_length": 3
+        }
+      },
+      "field_count": 4
+    },
+    "sample_count": 200,
+    "state_distribution": {
+      "PUBLISHED": 187,
+      "REJECTED": 13
+    },
+    "data_type_distribution": {
+      "CVE_RECORD": 200
+    },
+    "top_cnas": {
+      "mitre": 61,
+      "GitHub_M": 11,
+      "Patchstack": 9,
+      "VulDB": 8,
+      "microsoft": 7,
+      "cisco": 7,
+      "Wordfence": 7,
+      "redhat": 6,
+      "apple": 5,
+      "Linux": 5,
+      "oracle": 4,
+      "intel": 4,
+      "certcc": 3,
+      "jpcert": 3,
+      "hpe": 3
+    },
+    "record_size_bytes": {
+      "min": 577,
+      "max": 22676,
+      "mean": 3665,
+      "median": 3213
+    },
+    "sample_record_keys": [
+      "containers",
+      "cveMetadata",
+      "dataType",
+      "dataVersion"
+    ],
+    "cross_reference_keys": [
+      "cveMetadata.cveId"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "CVE"
+      ],
+      "edge_types": [
+        "affects (from containers.cna.affected)"
+      ],
+      "key_insight": "Fastest CVE source. No CVSS \u2014 pair with NVD for scoring.",
+      "freshness": "Near real-time via git pull"
+    }
+  },
+  "attack_stix": {
+    "status": "analyzed",
+    "bundle_files": [
+      "ics-attack/ics-attack.json",
+      "enterprise-attack/enterprise-attack.json",
+      "mobile-attack/mobile-attack.json"
+    ],
+    "bundle_count": 3,
+    "enterprise_bundle": "enterprise-attack/enterprise-attack.json",
+    "total_objects": 24772,
+    "object_type_counts": {
+      "relationship": 20048,
+      "x-mitre-analytic": 1739,
+      "attack-pattern": 835,
+      "malware": 696,
+      "x-mitre-detection-strategy": 691,
+      "course-of-action": 268,
+      "intrusion-set": 187,
+      "x-mitre-data-component": 109,
+      "tool": 91,
+      "campaign": 52,
+      "x-mitre-data-source": 38,
+      "x-mitre-tactic": 14,
+      "x-mitre-collection": 1,
+      "x-mitre-matrix": 1,
+      "identity": 1,
+      "marking-definition": 1
+    },
+    "techniques_count": 835,
+    "groups_count": 187,
+    "software_count": 787,
+    "relationships_count": 20048,
+    "relationship_types": {
+      "uses": 17270,
+      "mitigates": 1445,
+      "detects": 691,
+      "subtechnique-of": 477,
+      "revoked-by": 140,
+      "attributed-to": 25
+    },
+    "cve_cross_references": 0,
+    "cve_cross_reference_sample": [],
+    "sample_technique": {
+      "type": "object",
+      "fields": {
+        "type": {
+          "type": "string",
+          "sample_length": 14
+        },
+        "spec_version": {
+          "type": "string",
+          "sample_length": 3
+        },
+        "id": {
+          "type": "string",
+          "sample_length": 52
+        },
+        "created": {
+          "type": "string",
+          "sample_length": 24
+        },
+        "created_by_ref": {
+          "type": "string",
+          "sample_length": 46
+        },
+        "external_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "source_name": {
+                "type": "string",
+                "sample_length": 12
+              },
+              "url": {
+                "type": "string",
+                "sample_length": 45
+              },
+              "external_id": {
+                "type": "string",
+                "sample_length": 9
+              }
+            },
+            "field_count": 3
+          },
+          "length": 8
+        },
+        "object_marking_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "sample_length": 56
+          },
+          "length": 1
+        },
+        "modified": {
+          "type": "string",
+          "sample_length": 24
+        },
+        "name": {
+          "type": "string",
+          "sample_length": 29
+        },
+        "description": {
+          "type": "string",
+          "sample_length": 2338
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "fields": {
+              "kill_chain_name": {
+                "type": "string",
+                "sample_length": 12
+              },
+              "phase_name": {
+                "type": "string",
+                "sample_length": 15
+              }
+            },
+            "field_count": 2
+          },
+          "length": 2
+        },
+        "x_mitre_attack_spec_version": {
+          "type": "string",
+          "sample_length": 5
+        },
+        "x_mitre_deprecated": {
+          "type": "boolean"
+        },
+        "x_mitre_detection": {
+          "type": "string",
+          "sample_length": 0
+        },
+        "x_mitre_domains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "sample_length": 17
+          },
+          "length": 1
+        },
+        "x_mitre_is_subtechnique": {
+          "type": "boolean"
+        },
+        "x_mitre_modified_by_ref": {
+          "type": "string",
+          "sample_length": 46
+        },
+        "x_mitre_platforms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "sample_length": 7
+          },
+          "length": 1
+        },
+        "x_mitre_version": {
+          "type": "string",
+          "sample_length": 3
+        }
+      },
+      "field_count": 19
+    },
+    "cross_reference_keys": [
+      "external_references[].external_id (CVE-*, T*)"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "technique",
+        "tactic",
+        "group",
+        "software"
+      ],
+      "edge_types": [
+        "uses",
+        "mitigates",
+        "attributed_to"
+      ],
+      "key_insight": "Sparse CVE linkage \u2014 most value is technique taxonomy, not direct CVE mapping"
+    }
+  },
+  "nuclei": {
+    "status": "analyzed",
+    "total_templates": 12760,
+    "templates_by_category": {
+      "http": 10445,
+      "cloud": 663,
+      "file": 446,
+      "network": 278,
+      "code": 277,
+      "dast": 249,
+      "workflows": 206,
+      "javascript": 104,
+      "ssl": 38,
+      "dns": 30,
+      "headless": 24
+    },
+    "samples_analyzed": 500,
+    "unique_cve_references": 23,
+    "severity_distribution": {
+      "info": 247,
+      "low": 14,
+      "high": 14,
+      "medium": 14,
+      "critical": 3,
+      "unknown": 2
+    },
+    "top_tags": {
+      "discovery": 256,
+      "panel": 178,
+      "iot": 62,
+      "login": 51,
+      "vuln": 36,
+      "dns": 30,
+      "detect": 27,
+      "edb": 25,
+      "ssl": 14,
+      "tls": 13,
+      "fuzzing": 12,
+      "tech": 11,
+      "headless": 11,
+      "fuzz": 11,
+      "exposure": 11,
+      "printer": 8,
+      "camera": 6,
+      "misconfig": 5,
+      "honeypot": 5,
+      "router": 5,
+      "unauth": 5,
+      "wordpress": 4,
+      "apache": 4,
+      "service": 4,
+      "takeover": 4,
+      "lfi": 4,
+      "ir": 4,
+      "cti": 4,
+      "hp": 4,
+      "oss": 4
+    },
+    "cve_sample": [
+      "CVE-2005-2428",
+      "CVE-2017-12637",
+      "CVE-2018-0296",
+      "CVE-2018-1207",
+      "CVE-2018-19386",
+      "CVE-2019-16097",
+      "CVE-2020-10148",
+      "CVE-2020-11853",
+      "CVE-2020-11854",
+      "CVE-2020-17505"
+    ],
+    "cross_reference_keys": [
+      "CVE IDs in template metadata",
+      "tags"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "exploit_template"
+      ],
+      "edge_types": [
+        "detects (CVE)",
+        "tagged_with"
+      ],
+      "key_insight": "Signals 'scannable/exploitable' \u2014 enriches exploit node confidence"
+    }
+  },
+  "exploitdb": {
+    "status": "analyzed",
+    "index_columns": [
+      "id",
+      "file",
+      "description",
+      "date_published",
+      "author",
+      "type",
+      "platform",
+      "port",
+      "date_added",
+      "date_updated",
+      "verified",
+      "codes",
+      "tags",
+      "aliases",
+      "screenshot_url",
+      "application_url",
+      "source_url"
+    ],
+    "total_exploits": 46968,
+    "unique_cve_cross_refs": 24936,
+    "platform_distribution": {
+      "php": 22207,
+      "windows": 10535,
+      "multiple": 3364,
+      "linux": 3109,
+      "hardware": 2188,
+      "asp": 1549,
+      "cgi": 795,
+      "unix": 332,
+      "java": 313,
+      "osx": 310,
+      "jsp": 290,
+      "windows_x86": 219,
+      "solaris": 211,
+      "ios": 201,
+      "android": 158
+    },
+    "type_distribution": {
+      "webapps": 27374,
+      "remote": 7576,
+      "dos": 6992,
+      "local": 4999,
+      "hardware": 27
+    },
+    "sample_record": {
+      "id": "16929",
+      "file": "exploits/aix/dos/16929.rb",
+      "description": "AIX Calendar Manager Service Daemon (rpc.cmsd) Opcode 21 - Buffer Overflow (Metasploit)",
+      "date_published": "2010-11-11",
+      "author": "Metasploit",
+      "type": "dos",
+      "platform": "aix",
+      "port": "",
+      "date_added": "2010-11-11",
+      "date_updated": "2011-03-06",
+      "verified": "1",
+      "codes": "CVE-2009-3699;OSVDB-58726",
+      "tags": "Metasploit Framework (MSF)",
+      "aliases": "",
+      "screenshot_url": "",
+      "application_url": "",
+      "source_url": "http://aix.software.ibm.com/aix/efixes/security/cmsd_advisory.asc"
+    },
+    "total_shellcodes": 1065,
+    "cross_reference_keys": [
+      "codes (CVE-*)",
+      "id"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "exploit"
+      ],
+      "edge_types": [
+        "exploits (CVE)"
+      ],
+      "key_insight": "Provides actual exploit code linkage. CVE mapping is incomplete."
+    }
+  },
+  "poc_github": {
+    "status": "analyzed",
+    "total_json_files": 8457,
+    "samples_analyzed": 300,
+    "cves_in_sample": 300,
+    "pocs_in_sample": 604,
+    "avg_pocs_per_cve": 2.0,
+    "year_distribution": {
+      "2016": 182,
+      "2013": 69,
+      "2019": 49
+    },
+    "stars_distribution": {
+      "min": 0,
+      "max": 2070,
+      "mean": 22.0,
+      "median": 1.0
+    },
+    "cross_reference_keys": [
+      "CVE ID (from filename)",
+      "html_url (GitHub repo)"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "exploit_poc"
+      ],
+      "edge_types": [
+        "poc_for (CVE)"
+      ],
+      "key_insight": "Automated collection \u2014 quality varies. Stars can signal legitimacy."
+    }
+  },
+  "cwe": {
+    "status": "analyzed",
+    "json_note": "JSON parse failed",
+    "xml_file": "cwec_v4.19.1.xml",
+    "xml_size_bytes": 16095784,
+    "total_weaknesses": 969,
+    "sample_weakness_attributes": {
+      "ID": "1004",
+      "Name": "Sensitive Cookie Without 'HttpOnly' Flag",
+      "Abstraction": "Variant",
+      "Structure": "Simple",
+      "Status": "Incomplete"
+    },
+    "weakness_child_elements": {
+      "Description": 50,
+      "Related_Weaknesses": 50,
+      "Weakness_Ordinalities": 50,
+      "Applicable_Platforms": 50,
+      "Modes_Of_Introduction": 50,
+      "Common_Consequences": 50,
+      "Mapping_Notes": 50,
+      "Content_History": 50,
+      "References": 45,
+      "Taxonomy_Mappings": 36,
+      "Extended_Description": 22,
+      "Potential_Mitigations": 17,
+      "Demonstrative_Examples": 16,
+      "Detection_Methods": 15,
+      "Observed_Examples": 9,
+      "Background_Details": 5,
+      "Likelihood_Of_Exploit": 5,
+      "Alternate_Terms": 3,
+      "Related_Attack_Patterns": 3,
+      "Notes": 3
+    },
+    "cross_reference_keys": [
+      "CWE-ID"
+    ],
+    "graph_relevance": {
+      "node_types": [
+        "weakness_type"
+      ],
+      "edge_types": [
+        "classified_as (CVE\u2192CWE)",
+        "parent_of (CWE hierarchy)"
+      ],
+      "key_insight": "Taxonomy \u2014 static enrichment. Bridge for CVE\u2192ATT&CK mapping."
+    }
+  },
+  "cross_references": {
+    "primary_join_key": "CVE ID (CVE-YYYY-NNNNN)",
+    "linkage_map": {
+      "cvelistV5 \u2192 NVD": "CVE ID",
+      "cvelistV5 \u2192 EPSS": "CVE ID",
+      "cvelistV5 \u2192 CISA KEV": "CVE ID",
+      "cvelistV5 \u2192 OSV": "CVE ID (via aliases field)",
+      "cvelistV5 \u2192 ExploitDB": "CVE ID (via codes field)",
+      "cvelistV5 \u2192 Nuclei": "CVE ID (in template metadata)",
+      "cvelistV5 \u2192 PoC-in-GitHub": "CVE ID (filename)",
+      "cvelistV5 \u2192 CWE": "CWE ID (from problemTypes)",
+      "OSV \u2192 packages": "package name + ecosystem",
+      "ATT&CK \u2192 CVE": "sparse \u2014 external_references only"
+    },
+    "secondary_join_keys": [
+      "CWE ID (bridges CVE \u2192 weakness taxonomy \u2192 ATT&CK technique)",
+      "Package name + version (bridges OSV \u2192 dependency analysis)",
+      "Vendor + Product (bridges KEV \u2192 CPE \u2192 NVD)"
+    ],
+    "graph_design_implications": {
+      "cveid_is_hub": "CVE ID is the central hub node \u2014 all sources radiate from it",
+      "package_is_secondary_hub": "Package nodes connect ecosystems, versions, and vulns",
+      "indexes_needed": [
+        "CVE ID \u2192 all connected nodes (primary lookup)",
+        "Package + Ecosystem \u2192 affected CVEs (dependency query)",
+        "EPSS score range \u2192 CVEs (risk-based query)",
+        "Date ranges \u2192 CVEs (freshness/timeline query)"
+      ]
+    }
+  }
+}

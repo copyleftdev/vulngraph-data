@@ -1,0 +1,4 @@
+# The vulngraph repo is private — fetch git dependencies through the git CLI
+# so the gh credential helper authenticates.
+[net]
+git-fetch-with-cli = true
