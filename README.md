@@ -82,13 +82,27 @@ cargo run --release -- list-packages --db builds/vulngraph.db --ecosystem npm
 ./scripts/refresh.sh --publish      # + publish a GitHub Release (skips if unchanged)
 ```
 
+## The artifacts are the product
+
+Consumers should use the **published releases**, not build from source. The
+[vulngraph CLI](https://github.com/copyleftdev/vulngraph-cli) installs them
+with `vulngraph update`; the hosted MCP server installs them with its
+`update.sh`. Building this pipeline from source additionally requires access
+to the private `vulngraph` engine repository (a git dependency); that is only
+needed to *produce* releases, never to consume them.
+
 ## Format contract
 
 The on-disk binary format is defined once, in the `vulngraph-engine` crate,
 consumed here as a git dependency pinned to an `engine-v*` tag. Every
-published manifest records `engine_rev` and `format_version`; the installer
-rejects mismatches, so the two repos cannot drift silently. Bumping the pin
-is a deliberate format-sync act.
+published manifest records `engine_rev` and `format_version`; consumers
+reject mismatches, so the repos cannot drift silently. The public
+[vulngraph-cli](https://github.com/copyleftdev/vulngraph-cli) mirrors the
+`snapshot_id` algorithm and `SEMANTIC_FILES` from `manifest.rs` — changing
+either is a cross-repo contract change gated by `manifest_version` /
+`format_version`. Bumping the engine pin is a deliberate format-sync act.
+
+MIT licensed.
 
 Release cadence, asset names, manifest schema, and the client install
 contract: [docs/data-releases.md](docs/data-releases.md).
