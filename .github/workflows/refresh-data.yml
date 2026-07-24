@@ -37,6 +37,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 300
 
+    env:
+      # cargo's built-in libgit2 transport ignores url.insteadOf and the SSH
+      # config below; shelling out to the git CLI honors both.
+      CARGO_NET_GIT_FETCH_WITH_CLI: true
+
     steps:
       - uses: actions/checkout@v4
 
@@ -71,6 +76,32 @@ jobs:
           path: research/downloads/deps-dev
           key: deps-dev-
           restore-keys: deps-dev-
+
+      # vulngraph-engine is a git dependency on the private copyleftdev/vulngraph
+      # repo. A job's GITHUB_TOKEN is scoped to its own repo and cannot read it,
+      # so cargo authenticates with a read-only deploy key over SSH instead.
+      - name: Authenticate cargo to the private engine repo
+        env:
+          ENGINE_SSH_KEY: ${{ secrets.ENGINE_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$ENGINE_SSH_KEY" > ~/.ssh/engine_ed25519
+          chmod 600 ~/.ssh/engine_ed25519
+          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+          printf '%s\n' \
+            'Host github.com' \
+            '  IdentityFile ~/.ssh/engine_ed25519' \
+            '  IdentitiesOnly yes' >> ~/.ssh/config
+          # insteadOf matches on longest prefix, and ".../vulngraph" is a prefix
+          # of ".../vulngraph-data" — the first rule alone would also rewrite this
+          # repo's own remote to SSH and break the badge push in publish.sh. The
+          # longer identity-mapped rule below pins vulngraph-data back to HTTPS.
+          git config --global url."git@github.com:copyleftdev/vulngraph".insteadOf \
+            "https://github.com/copyleftdev/vulngraph"
+          git config --global url."https://github.com/copyleftdev/vulngraph-data".insteadOf \
+            "https://github.com/copyleftdev/vulngraph-data"
+          git ls-remote --get-url https://github.com/copyleftdev/vulngraph
+          git ls-remote --get-url https://github.com/copyleftdev/vulngraph-data.git
 
       - name: Build pipeline binary
         run: cargo build --release
