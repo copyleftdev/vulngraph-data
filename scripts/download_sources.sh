@@ -3,11 +3,11 @@ set -euo pipefail
 
 # VulnGraph Data Source Downloader
 # Downloads all freely available vulnerability data sources for structure analysis.
-# Run from: research/scripts/
+# Run from: anywhere (paths resolve relative to this script).
 # Output:   research/downloads/<source>/
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOWNLOADS_DIR="${SCRIPT_DIR}/../downloads"
+DOWNLOADS_DIR="${SCRIPT_DIR}/../research/downloads"
 LOG_FILE="${DOWNLOADS_DIR}/download.log"
 
 mkdir -p "${DOWNLOADS_DIR}"
@@ -181,6 +181,35 @@ download_cwe() {
 }
 
 # ─────────────────────────────────────────────────
+# 10. Sigma detection rules
+# ─────────────────────────────────────────────────
+download_sigma() {
+    local dir="${DOWNLOADS_DIR}/sigma"
+    log "Downloading Sigma rules..."
+    local start=$(date +%s)
+    if [ -d "${dir}/.git" ]; then
+        log "Sigma already cloned, pulling latest..."
+        git -C "${dir}" pull --depth=1 2>/dev/null || fail "Sigma pull"
+    else
+        git clone --depth=1 "https://github.com/SigmaHQ/sigma.git" "${dir}" || { fail "Sigma clone"; return; }
+    fi
+    log "Sigma done ($(download_duration ${start}), $(du -sh "${dir}" | cut -f1))"
+}
+
+# ─────────────────────────────────────────────────
+# 11. CAPEC (CWE→ATT&CK bridge)
+# ─────────────────────────────────────────────────
+download_capec() {
+    local dir="${DOWNLOADS_DIR}/capec"
+    mkdir -p "${dir}"
+    log "Downloading CAPEC data..."
+    local start=$(date +%s)
+    curl -sL "https://capec.mitre.org/data/xml/capec_latest.xml" \
+        -o "${dir}/capec_latest.xml" || { fail "CAPEC XML"; return; }
+    log "CAPEC done ($(download_duration ${start}), $(du -sh "${dir}" | cut -f1))"
+}
+
+# ─────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────
 log "=========================================="
@@ -196,6 +225,8 @@ if [ "${SOURCES}" = "all" ]; then
     download_cisa_kev
     download_epss
     download_cwe
+    download_capec
+    download_sigma
     download_attack
     download_nuclei
     download_poc_github
@@ -210,6 +241,8 @@ else
             kev|cisa-kev)    download_cisa_kev ;;
             epss)            download_epss ;;
             cwe)             download_cwe ;;
+            capec)           download_capec ;;
+            sigma)           download_sigma ;;
             attack|attck)    download_attack ;;
             nuclei)          download_nuclei ;;
             exploitdb)       download_exploitdb ;;

@@ -16,7 +16,17 @@ daily-cadence or slower, so there is no fast/edge overlay.
 | OSV (full database zip) | Rebuilt continuously | Daily build |
 | deps.dev | Per-package API, 7-day cache | Incremental during daily build |
 
-The daily pipeline runs at 02:00 UTC (`scripts/refresh.sh --cron --publish`).
+The daily pipeline runs on GitHub Actions at 04:17 UTC
+(`.github/workflows/refresh-data.yml`), and can be re-run on demand from the
+Actions tab. That slot is after the EPSS daily scores land (~00:00-01:00 UTC)
+and after the previous US business day's CISA KEV updates (~18:00-22:00 UTC),
+so each build sees a complete day of both.
+
+The workflow fetches sources with `scripts/download_sources.sh`, then runs
+`scripts/refresh.sh --rebuild-only --publish`. The deps.dev cache is carried
+between runs by the Actions cache and topped up under a time budget, seeded
+from the previous release's `vulngraph-db.tar.gz` so package enumeration has a
+graph to read.
 
 ## Release channel
 

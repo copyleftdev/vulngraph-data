@@ -1,0 +1,171 @@
+name: Refresh data
+
+# Keeps published data fresh: pull all upstream sources, rebuild the graph,
+# package dist/, verify it, and publish a data-YYYYMMDD release when — and
+# only when — the snapshot_id actually changed (publish.sh enforces that).
+#
+# Trigger rationale (04:17 UTC daily):
+#   - EPSS posts epss_scores-current.csv.gz shortly after 00:00 UTC, so the
+#     daily scores have landed and settled by 04:00.
+#   - CISA KEV is updated on US business days, typically 18:00-22:00 UTC, so
+#     this run picks up the previous business day's additions in full.
+#   - CVEList V5, OSV, nuclei-templates and PoC-in-GitHub push continuously;
+#     any time of day is equally fresh for them.
+#   - :17 rather than :00 avoids the top-of-hour scheduled-job queue on
+#     GitHub-hosted runners, which can delay a :00 cron by 10-30 minutes.
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish a data-YYYYMMDD release if the snapshot changed'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+# Never let two refreshes race: they share dist/ semantics and the release tag.
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The raw source tree is ~17 GB (OSV extracts to ~9 GB, cvelistV5 is
+      # ~3.5 GB). A stock runner does not have room for that, so reclaim the
+      # preinstalled toolchains we do not use (~30 GB).
+      - name: Free disk space
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /usr/local/share/boost /usr/local/share/powershell \
+                      /usr/share/swift /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h /
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: cargo-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+          restore-keys: cargo-${{ runner.os }}-
+
+      # The deps.dev cache is expensive to build (two rate-limited API calls
+      # per package) and cheap to store, so it persists across runs and is
+      # topped up incrementally below.
+      - name: Restore deps.dev cache
+        id: deps-dev-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: research/downloads/deps-dev
+          key: deps-dev-
+          restore-keys: deps-dev-
+
+      - name: Build pipeline binary
+        run: cargo build --release
+
+      # fetch-deps-dev.sh enumerates packages out of the *previous* graph, so
+      # seed one from the last release. Without it the deps.dev step is a
+      # no-op and the build silently loses its dependency edges.
+      - name: Seed previous graph from latest release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p builds/vulngraph.db
+          if gh release download --repo "$GITHUB_REPOSITORY" \
+               --pattern vulngraph-db.tar.gz --output /tmp/prev-db.tar.gz 2>/dev/null; then
+            tar -xzf /tmp/prev-db.tar.gz -C builds/vulngraph.db
+            rm -f /tmp/prev-db.tar.gz
+            echo "Seeded previous graph: $(du -sh builds/vulngraph.db | cut -f1)"
+          else
+            echo "No previous release to seed from — deps.dev enumeration will be skipped."
+          fi
+
+      - name: Download sources
+        run: ./scripts/download_sources.sh
+
+      # The 1.2 GB archive is dead weight once extracted, and refresh.sh runs
+      # with --rebuild-only so it will not be re-read.
+      - name: Drop OSV archive
+        run: |
+          rm -f research/downloads/osv/all.zip
+          du -sh research/downloads/* | sort -h
+          df -h /
+
+      # Time-boxed: a cold cache is ~20k packages at ~3/sec. Each run extends
+      # the cache; a failure or timeout here is non-fatal by design.
+      - name: Top up deps.dev cache
+        continue-on-error: true
+        run: |
+          mkdir -p research/downloads/deps-dev
+          timeout 25m ./scripts/fetch-deps-dev.sh \
+            research/downloads/deps-dev builds/vulngraph.db || \
+            echo "deps.dev top-up ended early (time-boxed) — cache retained."
+
+      - name: Save deps.dev cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: research/downloads/deps-dev
+          key: deps-dev-${{ github.run_id }}
+
+      - name: Configure git identity
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      # Sources are already current from the steps above, so --rebuild-only:
+      # build -> export-demo -> package -> verify -> promote -> publish.
+      # publish.sh no-ops when snapshot_id matches the latest release.
+      - name: Build, package, verify and publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p logs
+          ARGS="--rebuild-only"
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.publish }}" = "true" ]; then
+            ARGS="$ARGS --publish"
+          fi
+          set -o pipefail
+          ./scripts/refresh.sh $ARGS 2>&1 | tee logs/refresh.log
+
+      - name: Summarize
+        if: always()
+        run: |
+          {
+            echo '## VulnGraph data refresh'
+            if [ -f dist/manifest.json ]; then
+              python3 - <<'PY'
+          import json
+          m = json.load(open('dist/manifest.json'))
+          print(f"- snapshot: `{m['snapshot_id']}`")
+          print(f"- graph: {m['node_count']:,} nodes / {m['edge_count']:,} edges")
+          print(f"- engine: `{m['engine_rev']}` (format {m['format_version']})")
+          print(f"- sources: {len(m.get('sources') or {})}")
+          PY
+            else
+              echo '- no dist/manifest.json produced'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload manifest and log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refresh-${{ github.run_id }}
+          path: |
+            dist/manifest.json
+            logs/refresh.log
+          if-no-files-found: warn
+          retention-days: 14
