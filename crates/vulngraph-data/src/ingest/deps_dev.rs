@@ -85,6 +85,28 @@ pub fn ingest_deps_dev(deps_dir: &std::path::Path, builder: &mut GraphBuilder) -
     count
 }
 
+/// Freshness timestamp for the deps.dev cache: the mtime of the newest cached
+/// response (`<ecosystem>/<name>.json`), i.e. when the cache was last topped up.
+///
+/// Not the mtime of `deps_dir` itself: refreshing a response rewrites a file
+/// inside an ecosystem subdirectory and never touches the root, whose mtime
+/// only moves when an ecosystem directory is first created. Falls back to the
+/// directory's own mtime when it holds no responses. Max is order-independent,
+/// so the result does not depend on directory iteration order.
+pub fn cache_updated_at(deps_dir: &std::path::Path) -> String {
+    let mut newest: Option<u64> = None;
+    super::walk_json_files(deps_dir, &mut |path| {
+        let secs = super::source_mtime_secs(path);
+        if secs > 0 {
+            newest = Some(newest.map_or(secs, |n| n.max(secs)));
+        }
+    });
+    match newest {
+        Some(secs) => super::format_epoch_secs(secs),
+        None => super::source_mtime(deps_dir),
+    }
+}
+
 /// Normalize deps.dev system names to VulnGraph ecosystem conventions.
 fn normalize_ecosystem(system: &str) -> &'static str {
     match system.to_uppercase().as_str() {
@@ -95,5 +117,61 @@ fn normalize_ecosystem(system: &str) -> &'static str {
         "CARGO" => "crates.io",
         "NUGET" => "NuGet",
         _ => "unknown",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::cache_updated_at;
+    use std::fs::File;
+    use std::time::{Duration, UNIX_EPOCH};
+
+    fn set_mtime(path: &std::path::Path, secs: u64) {
+        File::open(path)
+            .unwrap()
+            .set_modified(UNIX_EPOCH + Duration::from_secs(secs))
+            .unwrap();
+    }
+
+    // 2026-07-26T05:53:01Z and 2026-10-21T05:10:00Z.
+    const DIR_CREATED: u64 = 1_785_045_181;
+    const LAST_FETCH: u64 = 1_792_559_400;
+
+    /// Refreshing a cached response rewrites a file inside an ecosystem
+    /// subdirectory; it never touches the cache root. The root's own mtime
+    /// only moves when an ecosystem directory is first created, so it froze
+    /// once every ecosystem had one. Freshness must follow the files.
+    #[test]
+    fn updated_at_follows_newest_cached_response_not_root_dir() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        let npm = root.join("npm");
+        std::fs::create_dir(&npm).unwrap();
+        std::fs::write(npm.join("old.json"), "{}").unwrap();
+        std::fs::write(npm.join("express.json"), "{}").unwrap();
+        set_mtime(&npm.join("old.json"), DIR_CREATED);
+        set_mtime(&npm.join("express.json"), LAST_FETCH);
+        set_mtime(&npm, DIR_CREATED);
+        set_mtime(root, DIR_CREATED);
+
+        assert_eq!(cache_updated_at(root), "2026-10-21T05:10:00Z");
+    }
+
+    /// An interrupted fetch leaves `*.json.tmp` behind; it is not ingested
+    /// and must not count as fresh data.
+    #[test]
+    fn updated_at_ignores_partial_downloads() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        let npm = root.join("npm");
+        std::fs::create_dir(&npm).unwrap();
+        std::fs::write(npm.join("express.json"), "{}").unwrap();
+        std::fs::write(npm.join("left-pad.json.tmp"), "").unwrap();
+        set_mtime(&npm.join("express.json"), DIR_CREATED);
+        set_mtime(&npm.join("left-pad.json.tmp"), LAST_FETCH);
+        set_mtime(&npm, LAST_FETCH);
+        set_mtime(root, LAST_FETCH);
+
+        assert_eq!(cache_updated_at(root), "2026-07-26T05:53:01Z");
     }
 }

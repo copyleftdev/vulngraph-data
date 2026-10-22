@@ -278,7 +278,7 @@ pub fn cmd_build(args: &BuildArgs) {
         );
         source_freshness.insert(
             "deps_dev".to_string(),
-            serde_json::json!({ "items": count, "updated_at": ingest::source_mtime(&deps_dir) }),
+            serde_json::json!({ "items": count, "updated_at": ingest::deps_dev::cache_updated_at(&deps_dir) }),
         );
     } else {
         eprintln!("[skip] deps.dev cache not found at {}", deps_dir.display());
