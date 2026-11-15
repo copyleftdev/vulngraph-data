@@ -4,9 +4,9 @@
 
 [![Tip my tokens](https://tokentip.to/badge/copyleftdev.svg?logo=1)](https://tokentip.to/@copyleftdev)
 <!-- badges:auto -->
-[![release](https://img.shields.io/badge/release-data--20261114-0969da)](https://github.com/copyleftdev/vulngraph-data/releases/latest)
-[![snapshot](https://img.shields.io/badge/snapshot-5d09646b-8250df)](https://github.com/copyleftdev/vulngraph-data/releases/latest)
-[![graph](https://img.shields.io/badge/graph-633%2C383_nodes_%2F_1%2C016%2C126_edges-1f6feb)](https://github.com/copyleftdev/vulngraph-data/releases/latest)
+[![release](https://img.shields.io/badge/release-data--20261115-0969da)](https://github.com/copyleftdev/vulngraph-data/releases/latest)
+[![snapshot](https://img.shields.io/badge/snapshot-036fd190-8250df)](https://github.com/copyleftdev/vulngraph-data/releases/latest)
+[![graph](https://img.shields.io/badge/graph-633%2C487_nodes_%2F_1%2C017%2C585_edges-1f6feb)](https://github.com/copyleftdev/vulngraph-data/releases/latest)
 [![sources](https://img.shields.io/badge/sources-11-2ea44f)](docs/data-releases.md)
 <!-- /badges:auto -->
 [![reproducible](https://img.shields.io/badge/builds-byte--identical-2ea44f)](.claude/rules/determinism.md)
